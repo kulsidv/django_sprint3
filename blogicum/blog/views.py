@@ -48,9 +48,9 @@ def post_detail(request, pk):
     template = "blog/detail.html"
     now = timezone.now()
     post = get_object_or_404(Post, pk=pk)
-    if (post.pub_date > now 
-        or not post.is_published 
-        or not post.category.is_published):
-        raise Http404(f"This post is invalid.")
+    if (post.pub_date > now
+            or not post.is_published
+            or not post.category.is_published):
+        raise Http404("This post is invalid.")
     content = {"post": post}
     return render(request, template, content)
