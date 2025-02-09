@@ -14,8 +14,7 @@ def index(request):
         .filter(
             pub_date__lte=now,
             is_published=True,
-            category__is_published=True)
-        .order_by("-pub_date")[0:5]
+            category__is_published=True)[0:5]
     )
     content = {"post_list": posts}
     return render(request, template, content)
@@ -31,14 +30,12 @@ def category_posts(request, category_slug):
     if not category.is_published:
         raise Http404(f"Category {category_slug} is invalid.")
     posts = (
-        Post.objects.all()
+        category.post
         .filter(
             pub_date__lte=now,
-            category=category,
             is_published=True,
             category__is_published=True,
         )
-        .order_by("-pub_date")
     )
     content = {"category": category, "post_list": posts}
     return render(request, template, content)
